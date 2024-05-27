@@ -1,6 +1,6 @@
 const express = require("express");
 const userRoutes = require("./userRoutes");
-const imageRouter = require("./imageRoutes");
+const imageRoutes = require("./imageRoutes");
 
 const router = express.Router();
 

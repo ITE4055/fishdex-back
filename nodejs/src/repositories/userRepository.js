@@ -25,7 +25,7 @@ exports.findByUsercode = async (usercode) => {
   return results;
 };
 
-exports.createUser = async (username, usercode) => {
+exports.register = async (username, usercode) => {
   const [result] = await pool.query(
     "INSERT INTO users (username, usercode) VALUES (?, ?)",
     [username, usercode]

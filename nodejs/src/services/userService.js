@@ -2,15 +2,11 @@ const userRepository = require("../repositories/userRepository");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
-exports.getAllUsers = async () => {
-  return await userRepository.findAll();
-};
+// exports.getAllUsers = async () => {
+//   return await userRepository.findAll();
+// };
 
-exports.createUser = async (userData) => {
-  return await userRepository.create(userData);
-};
-
-exports.loginOrRegister = async (username, usercode) => {
+exports.login = async (username, usercode) => {
   const users = await userRepository.findByUsercode(usercode);
   let token;
 
@@ -19,7 +15,7 @@ exports.loginOrRegister = async (username, usercode) => {
     return { message: "로그인 완료", token };
   }
 
-  await userRepository.createUser(username, usercode);
+  await userRepository.register(username, usercode);
   token = jwt.sign({ usercode }, process.env.SECRET_KEY, { expiresIn: "1h" });
-  return { message: "회원 등록 완료", token };
+  return { message: "회원가입 완료", token };
 };
