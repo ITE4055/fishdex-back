@@ -7,12 +7,12 @@ app = Flask(__name__)
 
 # 모델 로드
 model = cnn.CNN(3, 9)  # 예제에서는 input_dim이 3 (RGB 이미지)이고 output_dim이 9로 가정
-model.load_state_dict(torch.load(r'C:\Users\hyukkyo\repo\ITE4055\flask\fish_classifier.pth', map_location='cpu'))
+model.load_state_dict(torch.load(r'C:\Users\hyukkyo\repo\fishdex-back\flask\20240528.pth', map_location='cpu'))
 model.eval()
 
 fish_species = [
     "Black Sea Sprat",
-    "Glit-Head Bream",
+    "Gilt-Head Bream",
     "Hourse Mackerel",
     "Red Mullet",
     "Red Sea Bream",
