@@ -17,7 +17,7 @@ def get_transform():
     return transform
 
 # 데이터 로더 설정
-data_dir = r'C:\Users\hyukkyo\practice\fishdex_transfer_learning_practice\a_large_scale_fish_dataset\Fish_Dataset\Fish_Dataset'
+data_dir = r'C:\Users\hyukkyo\repo\fishdex-back\flask\classifier\a_large_scale_fish_dataset\Fish_Dataset\Fish_Dataset'
 BATCH_SIZE = 32
 
 transform = get_transform()
@@ -75,4 +75,4 @@ def train_model():
 
 if __name__ == "__main__":
     trained_model = train_model()
-    torch.save(trained_model.state_dict(), r'C:\Users\hyukkyo\practice\fishdex_transfer_learning_practice\fish_classifier.pth')
+    torch.save(trained_model.state_dict(), r'C:\Users\hyukkyo\repo\fishdex-back\flask\fish_classifier.pth')
