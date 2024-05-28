@@ -1,5 +1,4 @@
-flask\classifier\a-large-scale-fish-dataset\
-
-flask\fish_classifier.pth
+a-large-scale-fish-dataset\
+fish_classifier.pth
 
 .env
