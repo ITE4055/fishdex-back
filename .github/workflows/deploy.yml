@@ -37,7 +37,7 @@ jobs:
 
       - name: Install SSH key
         run: |
-          echo "${{ secrets.EC2_PEM }}" > ec2_key.pem
+          echo "${{ secrets.EC2_PEM }}" | base64 -d > ec2_key.pem
           chmod 600 ec2_key.pem
 
       - name: Deploy to EC2
