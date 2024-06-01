@@ -2,10 +2,10 @@
 FROM python:3.9
 
 # Create and set the working directory
-WORKDIR /app
+WORKDIR /usr/src/app
 
 # Copy the requirements file
-COPY ./flask /app
+COPY requirements.txt ./
 
 # Install dependencies
 RUN pip install --no-cache-dir -r requirements.txt
