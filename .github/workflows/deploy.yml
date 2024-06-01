@@ -24,8 +24,8 @@ jobs:
 
       - name: Build and push Docker image
         run: |
-          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/myapp:${{ github.sha }} .
-          docker push ${{ secrets.DOCKERHUB_USERNAME }}/myapp:${{ github.sha }}
+          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/fishdex-back:${{ github.sha }} .
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/fishdex-back:${{ github.sha }}
 
       - name: SSH to EC2 and deploy
         uses: appleboy/ssh-action@v0.1.3
@@ -34,7 +34,7 @@ jobs:
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            docker pull ${{ secrets.DOCKERHUB_USERNAME }}/myapp:${{ github.sha }}
-            docker stop myapp || true
-            docker rm myapp || true
-            docker run -d -p 80:3000 --name myapp ${{ secrets.DOCKERHUB_USERNAME }}/myapp:${{ github.sha }}
+            docker pull ${{ secrets.DOCKERHUB_USERNAME }}/fishdex-back:${{ github.sha }}
+            docker stop fishdex-back || true
+            docker rm fishdex-back || true
+            docker run -d -p 80:3000 --name fishdex-back ${{ secrets.DOCKERHUB_USERNAME }}/fishdex-back:${{ github.sha }}
