@@ -24,13 +24,13 @@ jobs:
 
       - name: Build and push Node.js Docker image
         run: |
-          cd /nodejs
+          cd fishdex-back/nodejs
           docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/nodejs:${{ github.sha }} .
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/nodejs:${{ github.sha }}
 
       - name: Build and push Flask Docker image
         run: |
-          cd /flask
+          cd fishdex-back/flask
           docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/flask:${{ github.sha }} .
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/flask:${{ github.sha }}
 
