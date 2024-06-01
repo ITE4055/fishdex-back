@@ -1,33 +1,16 @@
-name: Deploy to EC2
+name: CI/CD Pipeline
 
 on:
   push:
     branches:
       - main
 
-# jobs:
-#   ec2-test:
-#     runs-on: ubuntu-latest
-
-#     steps:
-#       - name: Checkout code
-#         uses: actions/checkout@v2
-
-#       - name: ec2-ssh-connect
-#         uses: appleboy/ssh-action@master
-#         with:
-#           host: ${{ secrets.EC2_HOST }}
-#           username: ${{ secrets.EC2_USER }}
-#           key: ${{ secrets.EC2_SSH_KEY }}
-#           script: |
-#             echo "Hello, World!"
-
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v2
 
       - name: Set up Docker Buildx
@@ -39,37 +22,36 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_ACCESS_TOKEN }}
 
-      - name: Build and push Node.js Docker image
-        run: |
-          cd nodejs
-          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/nodejs:${{ github.sha }} .
-          docker push ${{ secrets.DOCKERHUB_USERNAME }}/nodejs:${{ github.sha }}
+      - name: Build and push Node.js app
+        uses: docker/build-push-action@v2
+        with:
+          context: ./nodejs
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/nodejs:latest
 
-      - name: Build and push Flask Docker image
-        run: |
-          cd flask
-          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/flask:${{ github.sha }} .
-          docker push ${{ secrets.DOCKERHUB_USERNAME }}/flask:${{ github.sha }}
+      - name: Build and push Flask app
+        uses: docker/build-push-action@v2
+        with:
+          context: ./flask
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/flask:latest
+
   deploy:
-    needs: build
     runs-on: ubuntu-latest
+    needs: build
 
     steps:
-      - name: SSH to EC2 and deploy Node.js and Flask
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Deploy to EC2 using SSH
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.EC2_HOST }}
-          username: ${{ secrets.EC2_USER }}
+          username: ubuntu
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            # Pull and run Node.js container
-            docker pull ${{ secrets.DOCKERHUB_USERNAME }}/nodejs:${{ github.sha }}
-            docker stop nodejs || true
-            docker rm nodejs || true
-            docker run -d -p 3000:3000 --name nodejs ${{ secrets.DOCKERHUB_USERNAME }}/nodejs:${{ github.sha }}
-
-            # Pull and run Flask container
-            docker pull ${{ secrets.DOCKERHUB_USERNAME }}/flask:${{ github.sha }}
-            docker stop flask || true
-            docker rm flask || true
-            docker run -d -p 5000:5000 --name flask ${{ secrets.DOCKERHUB_USERNAME }}/flask:${{ github.sha }}
+            docker pull ${{ secrets.DOCKERHUB_USERNAME }}/nodejs:latest
+            docker pull ${{ secrets.DOCKERHUB_USERNAME }}/flask:latest
+            docker-compose down
+            docker-compose up -d
