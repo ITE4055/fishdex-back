@@ -34,6 +34,7 @@ jobs:
           docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/flask:${{ github.sha }} .
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/flask:${{ github.sha }}
   deploy:
+    needs: build
     runs-on: ubuntu-latest
 
     steps:
