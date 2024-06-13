@@ -24,11 +24,7 @@ jobs:
             cd ~/fishdex-back/nodejs
 
             # 리포지토리 pull
-            if [ ! -d .git ]; then
-              git init
-              git remote add origin https://ITE4055:${{ secrets.GIT_TOKEN }}@github.com/ITE4055/fishdex-back.git
-            fi
-            git pull origin main
+            git pull https://ITE4055:${{ secrets.GIT_TOKEN }}@github.com/ITE4055/fishdex-back.git
 
             # 의존성 설치 및 애플리케이션 시작
             npm install
