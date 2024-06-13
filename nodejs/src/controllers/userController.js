@@ -18,7 +18,7 @@ exports.login = async (req, res) => {
   }
 };
 
-exports.getUserbyUserCode = async (req, res) => {
+exports.getUserByUserCode = async (req, res) => {
   const { usercode } = req.body;
 
   if (!usercode) {
