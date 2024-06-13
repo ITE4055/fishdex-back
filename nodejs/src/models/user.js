@@ -1,7 +1,7 @@
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define("User", {
-    userName: DataTypes.STRING,
-    userCode: DataTypes.STRING,
+    username: DataTypes.STRING,
+    usercode: DataTypes.STRING,
   });
   return User;
 };

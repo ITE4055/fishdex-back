@@ -18,6 +18,22 @@ exports.login = async (req, res) => {
   }
 };
 
+exports.getUserbyUserCode = async (req, res) => {
+  const { usercode } = req.body;
+
+  if (!usercode) {
+    return res.status(400).json({ message: "회원번호를 입력해주세요." });
+  }
+
+  try {
+    const result = await userService.getUserbyUserCode(usercode);
+    return res.status(200).json(result);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+};
+
 // exports.getAllUsers = async (req, res, next) => {
 //   try {
 //     const users = await userService.getAllUsers();

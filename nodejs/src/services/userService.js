@@ -7,10 +7,10 @@ require("dotenv").config();
 // };
 
 exports.login = async (username, usercode) => {
-  const users = await userRepository.findByUsercode(usercode);
+  const user = await userRepository.findByUsercode(usercode);
   let token;
 
-  if (users.length > 0) {
+  if (user.length > 0) {
     token = jwt.sign({ usercode }, process.env.SECRET_KEY, { expiresIn: "1h" });
     return { message: "로그인 완료", token };
   }
@@ -18,4 +18,12 @@ exports.login = async (username, usercode) => {
   await userRepository.register(username, usercode);
   token = jwt.sign({ usercode }, process.env.SECRET_KEY, { expiresIn: "1h" });
   return { message: "회원가입 완료", token };
+};
+
+exports.getUserByUserCode = async (usercode) => {
+  const user = await userRepository.findByUsercode(usercode);
+  if (user.length === 0) {
+    throw new Error("회원번호가 존재하지 않습니다.");
+  }
+  return user[0];
 };
