@@ -24,7 +24,7 @@ jobs:
             cd ~/fishdex-back
 
             # 리포지토리 pull
-            git pull https://ITE4055:${{ secrets.GIT_TOKEN }}@github.com:ITE4055/fishdex-back.git
+            git pull https://hyukkyo:${{ secrets.GIT_TOKEN }}@github.com:ITE4055/fishdex-back.git
 
             # 의존성 설치 및 애플리케이션 시작
             cd nodejs
