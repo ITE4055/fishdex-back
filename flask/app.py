@@ -31,7 +31,7 @@ class FishClassifier(nn.Module):
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 model = FishClassifier(out_dim=9).to(device)
-model.load_state_dict(torch.load(r'fish_classifier.pth'), map_location=device)
+model.load_state_dict(torch.load(r'fish_classifier.pth'))
 model.eval()
 
 # 클래스 이름 정의 (예: 각 클래스의 이름)
@@ -105,4 +105,4 @@ def predict():
     return jsonify({'species': predicted_class})
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=5000, debug=True)
