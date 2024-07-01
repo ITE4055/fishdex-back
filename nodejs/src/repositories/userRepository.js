@@ -25,6 +25,14 @@ exports.findByUsercode = async (usercode) => {
   return results;
 };
 
+exports.addFishByUsercode = async (usercode, category) => {
+  const [result] = await pool.query(
+    "UPDATE users SET ? = ? + 1 WHERE usercode = ?",
+    [category, category, usercode]
+  );
+  return result;
+};
+
 exports.register = async (username, usercode) => {
   const [result] = await pool.query(
     "INSERT INTO users (username, usercode) VALUES (?, ?)",

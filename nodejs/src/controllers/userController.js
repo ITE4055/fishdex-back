@@ -18,7 +18,7 @@ exports.login = async (req, res) => {
   }
 };
 
-exports.getUserByUserCode = async (req, res) => {
+exports.getUserByUsercode = async (req, res) => {
   const { usercode } = req.body;
 
   if (!usercode) {
@@ -26,7 +26,7 @@ exports.getUserByUserCode = async (req, res) => {
   }
 
   try {
-    const result = await userService.getUserbyUserCode(usercode);
+    const result = await userService.getUserByUserCode(usercode);
     return res.status(200).json(result);
   } catch (error) {
     console.error(error);
